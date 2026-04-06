@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SatinKraken</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #0a0a0f;
+    --deep: #0d1117;
+    --abyss: #111827;
+    --tentacle: #1a3a2a;
+    --eldritch: #2dd4a0;
+    --glow: #34d399;
+    --madness: #8b5cf6;
+    --blood: #dc2626;
+    --bone: #d4c5a9;
+    --fog: #9ca3af;
+    --parchment: #f5f0e8;
+    --gold: #d4a853;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--void);
+    color: var(--bone);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  ::selection {
+    background: var(--eldritch);
+    color: var(--void);
+  }
+
+  /* ═══════════ DEEP SEA BACKGROUND ═══════════ */
+  .cosmic-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(180deg,
+        #02100b 0%,
+        #041a10 15%,
+        #062515 35%,
+        #083020 50%,
+        #052010 70%,
+        #031008 85%,
+        #010805 100%
+      );
+  }
+
+  /* Underwater god rays streaming from surface */
+  .cosmic-bg::before {
+    content: '';
+    position: fixed;
+    top: -20%;
+    left: -10%;
+    width: 120%;
+    height: 70%;
+    background:
+      conic-gradient(from 170deg at 30% 0%,
+        transparent 0deg,
+        rgba(45, 212, 160, 0.04) 5deg,
+        transparent 12deg,
+        transparent 25deg,
+        rgba(30, 190, 140, 0.03) 30deg,
+        transparent 38deg,
+        transparent 50deg,
+        rgba(45, 212, 160, 0.05) 54deg,
+        transparent 62deg,
+        transparent 80deg,
+        rgba(20, 170, 120, 0.03) 84deg,
+        transparent 90deg,
+        transparent 110deg,
+        rgba(45, 212, 160, 0.04) 114deg,
+        transparent 122deg,
+        transparent 360deg
+      );
+    filter: blur(20px);
+    animation: godRays 10s ease-in-out infinite;
+    transform-origin: 30% 0%;
+  }
+
+  /* Caustic light ripples on everything */
+  .cosmic-bg::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 120px 80px at 15% 12%, rgba(45, 212, 160, 0.06), transparent),
+      radial-gradient(ellipse 80px 120px at 50% 8%, rgba(40, 200, 150, 0.05), transparent),
+      radial-gradient(ellipse 140px 60px at 75% 18%, rgba(45, 212, 160, 0.04), transparent),
+      radial-gradient(ellipse 60px 100px at 30% 22%, rgba(35, 190, 140, 0.05), transparent),
+      radial-gradient(ellipse 100px 70px at 85% 5%, rgba(45, 212, 160, 0.03), transparent),
+      radial-gradient(ellipse 90px 90px at 60% 30%, rgba(30, 180, 130, 0.03), transparent);
+    animation: caustics 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes godRays {
+    0%, 100% { opacity: 1; transform: rotate(0deg) scaleX(1); }
+    25% { opacity: 0.8; transform: rotate(0.5deg) scaleX(1.02); }
+    50% { opacity: 0.6; transform: rotate(-0.3deg) scaleX(0.98); }
+    75% { opacity: 0.9; transform: rotate(0.2deg) scaleX(1.01); }
+  }
+
+  @keyframes caustics {
+    0% { transform: scale(1) translate(0, 0); opacity: 1; }
+    100% { transform: scale(1.08) translate(15px, 8px); opacity: 0.7; }
+  }
+
+  /* Bubbles rising from the deep */
+  .particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(circle at 35% 35%,
+      rgba(45, 212, 160, 0.15),
+      rgba(45, 212, 160, 0.05) 50%,
+      transparent 70%
+    );
+    border: 1px solid rgba(45, 212, 160, 0.12);
+    box-shadow: inset 0 0 4px rgba(45, 212, 160, 0.05);
+  }
+
+  .particle-1 {
+    width: 8px; height: 8px;
+    bottom: -5%; left: 12%;
+    animation: bubble1 16s ease-in infinite;
+  }
+  .particle-2 {
+    width: 5px; height: 5px;
+    bottom: -5%; left: 38%;
+    animation: bubble2 20s ease-in infinite 3s;
+  }
+  .particle-3 {
+    width: 12px; height: 12px;
+    bottom: -5%; left: 65%;
+    animation: bubble1 24s ease-in infinite 7s;
+  }
+  .particle-4 {
+    width: 4px; height: 4px;
+    bottom: -5%; left: 25%;
+    animation: bubble2 18s ease-in infinite 10s;
+  }
+  .particle-5 {
+    width: 6px; height: 6px;
+    bottom: -5%; left: 80%;
+    animation: bubble1 22s ease-in infinite 5s;
+  }
+  .particle-6 {
+    width: 3px; height: 3px;
+    bottom: -5%; left: 52%;
+    animation: bubble2 15s ease-in infinite 1s;
+  }
+
+  @keyframes bubble1 {
+    0% { transform: translate(0, 0) scale(1); opacity: 0; }
+    5% { opacity: 0.7; }
+    30% { transform: translate(15px, -30vh) scale(1.05); opacity: 0.5; }
+    60% { transform: translate(-10px, -60vh) scale(0.95); opacity: 0.35; }
+    90% { transform: translate(8px, -90vh) scale(0.85); opacity: 0.15; }
+    100% { transform: translate(5px, -105vh) scale(0.8); opacity: 0; }
+  }
+  @keyframes bubble2 {
+    0% { transform: translate(0, 0) scale(1); opacity: 0; }
+    5% { opacity: 0.6; }
+    30% { transform: translate(-12px, -28vh) scale(1.1); opacity: 0.45; }
+    60% { transform: translate(18px, -58vh) scale(0.9); opacity: 0.3; }
+    90% { transform: translate(-8px, -88vh) scale(0.8); opacity: 0.1; }
+    100% { transform: translate(-5px, -105vh) scale(0.7); opacity: 0; }
+  }
+
+  /* Deep murky water layers — fog of the abyss */
+  .mist {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+  .mist-1 {
+    background:
+      radial-gradient(ellipse 600px 300px at 0% 85%, rgba(10, 60, 40, 0.15) 0%, transparent 100%),
+      radial-gradient(ellipse 400px 200px at 100% 70%, rgba(8, 50, 35, 0.1) 0%, transparent 100%);
+    animation: seaDrift1 20s ease-in-out infinite;
+  }
+  .mist-2 {
+    background:
+      radial-gradient(ellipse 500px 250px at 80% 90%, rgba(5, 40, 28, 0.2) 0%, transparent 100%),
+      radial-gradient(ellipse 350px 400px at 15% 50%, rgba(10, 55, 38, 0.08) 0%, transparent 100%);
+    animation: seaDrift2 28s ease-in-out infinite;
+  }
+  .mist-3 {
+    background:
+      radial-gradient(ellipse 100% 200px at 50% 100%, rgba(2, 15, 10, 0.6) 0%, transparent 100%);
+    animation: seaDrift3 15s ease-in-out infinite;
+  }
+
+  @keyframes seaDrift1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    30% { transform: translate(40px, -15px) scale(1.05); }
+    60% { transform: translate(-20px, 10px) scale(0.97); }
+  }
+  @keyframes seaDrift2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-50px, 20px) scale(1.08); }
+  }
+  @keyframes seaDrift3 {
+    0%, 100% { transform: translate(0, 0); opacity: 1; }
+    50% { transform: translate(20px, -5px); opacity: 0.7; }
+  }
+
+  /* Floating sea dust — tiny specs drifting */
+  .sea-dust {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background-image:
+      radial-gradient(1px 1px at 8% 25%, rgba(45, 212, 160, 0.2), transparent),
+      radial-gradient(1px 1px at 22% 68%, rgba(45, 212, 160, 0.15), transparent),
+      radial-gradient(1.5px 1.5px at 43% 12%, rgba(45, 212, 160, 0.25), transparent),
+      radial-gradient(1px 1px at 57% 82%, rgba(30, 180, 130, 0.15), transparent),
+      radial-gradient(1px 1px at 71% 35%, rgba(45, 212, 160, 0.1), transparent),
+      radial-gradient(1px 1px at 88% 55%, rgba(45, 212, 160, 0.2), transparent),
+      radial-gradient(1.5px 1.5px at 33% 45%, rgba(30, 190, 140, 0.18), transparent),
+      radial-gradient(1px 1px at 62% 20%, rgba(45, 212, 160, 0.12), transparent),
+      radial-gradient(1px 1px at 15% 90%, rgba(45, 212, 160, 0.15), transparent),
+      radial-gradient(1px 1px at 78% 75%, rgba(35, 185, 135, 0.2), transparent),
+      radial-gradient(1px 1px at 5% 50%, rgba(45, 212, 160, 0.1), transparent),
+      radial-gradient(1px 1px at 95% 15%, rgba(45, 212, 160, 0.15), transparent);
+    animation: dustFloat 40s linear infinite;
+  }
+
+  @keyframes dustFloat {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(8px, -15px); }
+    50% { transform: translate(-5px, -8px); }
+    75% { transform: translate(10px, -20px); }
+    100% { transform: translate(0, 0); }
+  }
+
+  /* ═══════════ TENTACLE DECORATION ═══════════ */
+  .tentacle-border {
+    position: relative;
+  }
+  .tentacle-border::before,
+  .tentacle-border::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    opacity: 0.06;
+    pointer-events: none;
+  }
+  .tentacle-border::before {
+    top: -40px; left: -40px;
+    background: radial-gradient(circle, var(--eldritch), transparent 70%);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    animation: breathe 8s ease-in-out infinite;
+  }
+  .tentacle-border::after {
+    bottom: -40px; right: -40px;
+    background: radial-gradient(circle, var(--madness), transparent 70%);
+    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+    animation: breathe 8s ease-in-out infinite 4s;
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(10deg); }
+  }
+
+  /* ═══════════ NAVIGATION ═══════════ */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(10,10,15,0.95), rgba(10,10,15,0));
+    backdrop-filter: blur(8px);
+    transition: all 0.4s;
+  }
+
+  .nav-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--eldritch);
+    text-decoration: none;
+    letter-spacing: 3px;
+    text-shadow: 0 0 20px rgba(45, 212, 160, 0.3);
+    transition: text-shadow 0.3s;
+  }
+  .nav-logo:hover {
+    text-shadow: 0 0 40px rgba(45, 212, 160, 0.6);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--fog);
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--eldritch);
+    transition: width 0.3s;
+    box-shadow: 0 0 8px var(--eldritch);
+  }
+  .nav-links a:hover { color: var(--eldritch); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* Mobile menu */
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--eldritch);
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+
+  /* ═══════════ HERO ═══════════ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .hero-kraken-img {
+    width: clamp(220px, 35vw, 350px);
+    height: auto;
+    margin-bottom: 2rem;
+    animation: krakenFloat 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(45, 212, 160, 0.25)) drop-shadow(0 0 80px rgba(45, 212, 160, 0.1));
+    transition: filter 0.3s;
+  }
+
+  .hero-kraken-img:hover {
+    filter: drop-shadow(0 0 50px rgba(45, 212, 160, 0.4)) drop-shadow(0 0 100px rgba(45, 212, 160, 0.15));
+  }
+
+  @keyframes krakenFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  .hero h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    font-weight: 900;
+    color: var(--parchment);
+    letter-spacing: 6px;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 40px rgba(45, 212, 160, 0.15);
+    animation: fadeRise 1.5s ease-out;
+  }
+
+  .hero .subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    color: var(--fog);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    animation: fadeRise 1.5s ease-out 0.3s both;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 1rem 3rem;
+    border: 1px solid var(--eldritch);
+    color: var(--eldritch);
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+    animation: fadeRise 1.5s ease-out 0.6s both;
+  }
+  .hero-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--eldritch);
+    transform: translateX(-101%);
+    transition: transform 0.4s;
+    z-index: -1;
+  }
+  .hero-cta:hover {
+    color: var(--void);
+    box-shadow: 0 0 30px rgba(45, 212, 160, 0.3);
+  }
+  .hero-cta:hover::before { transform: translateX(0); }
+
+  @keyframes fadeRise {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeRise 1.5s ease-out 1s both;
+  }
+  .scroll-indicator span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--fog);
+    opacity: 0.5;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--eldritch), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; height: 40px; }
+    50% { opacity: 1; height: 60px; }
+  }
+
+  /* ═══════════ SECTIONS ═══════════ */
+  section {
+    padding: 6rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-header .rune {
+    font-size: 0.75rem;
+    letter-spacing: 12px;
+    color: var(--eldritch);
+    text-transform: uppercase;
+    font-family: 'Cinzel', serif;
+    margin-bottom: 0.8rem;
+    opacity: 0.7;
+  }
+
+  .section-header h2 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--parchment);
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .section-header .divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--eldritch), transparent);
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(45, 212, 160, 0.3);
+  }
+
+  /* ═══════════ GAMES GRID ═══════════ */
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .game-card {
+    background: linear-gradient(145deg, rgba(17, 24, 39, 0.8), rgba(13, 17, 23, 0.9));
+    border: 1px solid rgba(45, 212, 160, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.5s;
+    position: relative;
+  }
+  .game-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(45, 212, 160, 0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(45, 212, 160, 0.08);
+  }
+
+  .game-card-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--abyss), var(--tentacle));
+  }
+
+  .game-card-img .placeholder-art {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    opacity: 0.3;
+    background: linear-gradient(135deg, rgba(26,58,42,0.4), rgba(139,92,246,0.1));
+  }
+
+  .game-card-body {
+    padding: 1.5rem;
+  }
+
+  .game-card-body h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: var(--parchment);
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+  }
+
+  .game-card-body .game-genre {
+    font-size: 0.75rem;
+    color: var(--eldritch);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    font-family: 'Cinzel', serif;
+  }
+
+  .game-card-body p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--fog);
+    margin-bottom: 1.2rem;
+  }
+
+  .game-links {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .game-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(45, 212, 160, 0.2);
+    color: var(--eldritch);
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .game-link:hover {
+    background: rgba(45, 212, 160, 0.1);
+    border-color: var(--eldritch);
+    box-shadow: 0 0 15px rgba(45, 212, 160, 0.15);
+  }
+
+  .game-link svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ═══════════ ABOUT / LORE SECTION ═══════════ */
+  .lore-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .lore-text p {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: var(--fog);
+    margin-bottom: 1.5rem;
+  }
+  .lore-text p:first-of-type::first-letter {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 3.5rem;
+    float: left;
+    color: var(--eldritch);
+    line-height: 1;
+    margin-right: 0.5rem;
+    margin-top: 0.1rem;
+    text-shadow: 0 0 20px rgba(45, 212, 160, 0.3);
+  }
+
+  .lore-sigil {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sigil-container {
+    width: 280px;
+    height: 280px;
+    position: relative;
+  }
+
+  .sigil-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(45, 212, 160, 0.15);
+  }
+  .sigil-ring:nth-child(1) {
+    inset: 0;
+    animation: sigilSpin 20s linear infinite;
+  }
+  .sigil-ring:nth-child(2) {
+    inset: 30px;
+    border-color: rgba(139, 92, 246, 0.15);
+    animation: sigilSpin 15s linear infinite reverse;
+  }
+  .sigil-ring:nth-child(3) {
+    inset: 60px;
+    border-style: dashed;
+    animation: sigilSpin 25s linear infinite;
+  }
+  .sigil-center {
+    position: absolute;
+    inset: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45, 212, 160, 0.1), transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2rem;
+    color: var(--eldritch);
+    text-shadow: 0 0 30px rgba(45, 212, 160, 0.4);
+  }
+
+  @keyframes sigilSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Ring tick marks */
+  .sigil-ring:nth-child(1)::before,
+  .sigil-ring:nth-child(1)::after {
+    content: '✦';
+    position: absolute;
+    color: var(--eldritch);
+    font-size: 0.6rem;
+    opacity: 0.5;
+  }
+  .sigil-ring:nth-child(1)::before { top: -4px; left: 50%; }
+  .sigil-ring:nth-child(1)::after { bottom: -4px; left: 50%; }
+
+  /* ═══════════ PRIVACY POLICY ═══════════ */
+  .privacy-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+
+  .privacy-section .policy-content {
+    background: linear-gradient(145deg, rgba(17, 24, 39, 0.6), rgba(13, 17, 23, 0.8));
+    border: 1px solid rgba(45, 212, 160, 0.08);
+    padding: 3rem;
+    border-radius: 4px;
+  }
+
+  .policy-content h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: var(--parchment);
+    margin: 2rem 0 0.8rem;
+    letter-spacing: 2px;
+  }
+  .policy-content h3:first-of-type { margin-top: 0; }
+
+  .policy-content p, .policy-content li {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--fog);
+  }
+
+  .policy-content ul {
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+  }
+  .policy-content li {
+    margin-bottom: 0.3rem;
+  }
+  .policy-content li::marker {
+    color: var(--eldritch);
+  }
+
+  .policy-date {
+    font-size: 0.85rem;
+    color: var(--fog);
+    opacity: 0.6;
+    margin-bottom: 1.5rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 2px;
+  }
+
+  /* ═══════════ COMING SOON ═══════════ */
+  .coming-soon {
+    text-align: center;
+    padding: 6rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .coming-soon-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.6;
+    animation: csFloat 3s ease-in-out infinite;
+  }
+
+  @keyframes csFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .coming-soon h2 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--parchment);
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .coming-soon p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--fog);
+  }
+
+  /* ═══════════ FOOTER ═══════════ */
+  footer {
+    border-top: 1px solid rgba(45, 212, 160, 0.08);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.2rem;
+    color: var(--eldritch);
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(45, 212, 160, 0.2);
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    color: var(--fog);
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--eldritch); }
+
+  .footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-social a {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(45, 212, 160, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--fog);
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+  }
+  .footer-social a:hover {
+    border-color: var(--eldritch);
+    color: var(--eldritch);
+    box-shadow: 0 0 15px rgba(45, 212, 160, 0.15);
+  }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--fog);
+    opacity: 0.4;
+    letter-spacing: 1px;
+  }
+
+  /* ═══════════ ELDRITCH SEPARATOR ═══════════ */
+  .eldritch-sep {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--eldritch);
+    opacity: 0.3;
+    font-size: 1.5rem;
+    letter-spacing: 20px;
+  }
+
+  /* ═══════════ RESPONSIVE ═══════════ */
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(10, 10, 15, 0.98);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { font-size: 1.2rem; }
+    .menu-toggle { display: block; z-index: 101; }
+
+    .lore-section {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .lore-sigil { order: -1; }
+    .sigil-container { width: 200px; height: 200px; }
+    .sigil-ring:nth-child(2) { inset: 20px; }
+    .sigil-ring:nth-child(3) { inset: 40px; }
+    .sigil-center { inset: 60px; font-size: 1.5rem; }
+
+    .games-grid { grid-template-columns: 1fr; }
+
+    .policy-content { padding: 1.5rem; }
+  }
+
+  /* ═══════════ SCROLL ANIMATIONS ═══════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Noise overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+</style>
+</head>
+<body>
+
+<div class="cosmic-bg"></div>
+<div class="sea-dust"></div>
+<div class="particle particle-1"></div>
+<div class="particle particle-2"></div>
+<div class="particle particle-3"></div>
+<div class="particle particle-4"></div>
+<div class="particle particle-5"></div>
+<div class="particle particle-6"></div>
+<div class="mist mist-1"></div>
+<div class="mist mist-2"></div>
+<div class="mist mist-3"></div>
+
+<!-- ═══════════ NAVIGATION ═══════════ -->
+<nav>
+  <a href="#hero" class="nav-logo">⛧ SATINKRAKEN</a>
+  <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open'); this.textContent = this.textContent === '☰' ? '✕' : '☰'">☰</button>
+  <ul class="nav-links">
+    <li><a href="#hero" onclick="document.querySelector('.nav-links').classList.remove('open')">Home</a></li>
+    <li><a href="privacy.html" onclick="document.querySelector('.nav-links').classList.remove('open')">Privacy</a></li>
+    <li><a href="terms.html" onclick="document.querySelector('.nav-links').classList.remove('open')">Terms</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero" id="hero">
+  <img src="kraken.png" alt="SatinKraken" class="hero-kraken-img">
+  <h1>SatinKraken</h1>
+  <p class="subtitle">satinkraken.com</p>
+  <div class="scroll-indicator">
+    <span>Scroll Down</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════ COMING SOON ═══════════ -->
+<div class="coming-soon reveal">
+  <div class="coming-soon-icon">🎮</div>
+  <h2>Games Coming Soon</h2>
+  <p>We're crafting something from the depths. Stay tuned.</p>
+</div>
+
+<div class="eldritch-sep">⛧ ✦ ⛧</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-logo">⛧ SATINKRAKEN ⛧</div>
+  <div class="footer-links">
+    <a href="#hero">Home</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Use</a>
+  </div>
+  <div class="footer-social">
+    <a href="https://tr.linkedin.com/in/bu%C4%9Frahan-bahad%C4%B1r-74702446" target="_blank" rel="noopener" title="LinkedIn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <!-- App Store link: sonra eklenecek
+    <a href="#" target="_blank" rel="noopener" title="App Store">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    </a>
+    -->
+  </div>
+  <p class="footer-copy">© 2026 SatinKraken. All rights reserved.</p>
+</footer>
+
+<!-- ═══════════ SCROLL REVEAL SCRIPT ═══════════ -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
