@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gizlilik Politikası — SatinKraken</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #0a0a0f;
+    --deep: #0d1117;
+    --abyss: #111827;
+    --tentacle: #1a3a2a;
+    --eldritch: #2dd4a0;
+    --glow: #34d399;
+    --madness: #8b5cf6;
+    --bone: #d4c5a9;
+    --fog: #9ca3af;
+    --parchment: #f5f0e8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--void);
+    color: var(--bone);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--eldritch); color: var(--void); }
+
+  .cosmic-bg {
+    position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(26,58,42,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.08) 0%, transparent 40%),
+      var(--void);
+  }
+  .cosmic-bg::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.3), transparent),
+      radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.2), transparent),
+      radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.15), transparent),
+      radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.25), transparent);
+    animation: starDrift 60s linear infinite;
+  }
+  @keyframes starDrift { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); } }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(10,10,15,0.95), rgba(10,10,15,0));
+    backdrop-filter: blur(8px);
+  }
+  .nav-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--eldritch); text-decoration: none;
+    letter-spacing: 3px;
+    text-shadow: 0 0 20px rgba(45,212,160,0.3);
+  }
+  .nav-logo:hover { text-shadow: 0 0 40px rgba(45,212,160,0.6); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--fog); text-decoration: none;
+    font-family: 'Cinzel', serif; font-size: 0.85rem;
+    letter-spacing: 2px; text-transform: uppercase;
+    position: relative; padding-bottom: 4px; transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1px; background: var(--eldritch);
+    transition: width 0.3s; box-shadow: 0 0 8px var(--eldritch);
+  }
+  .nav-links a:hover { color: var(--eldritch); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active { color: var(--eldritch); }
+  .nav-links a.active::after { width: 100%; }
+
+  .menu-toggle {
+    display: none; background: none; border: none;
+    color: var(--eldritch); font-size: 1.8rem; cursor: pointer;
+  }
+
+  /* PAGE CONTENT */
+  .page-header {
+    padding: 8rem 2rem 3rem;
+    text-align: center;
+  }
+  .page-header .rune {
+    font-size: 0.75rem; letter-spacing: 12px;
+    color: var(--eldritch); text-transform: uppercase;
+    font-family: 'Cinzel', serif; margin-bottom: 0.8rem; opacity: 0.7;
+  }
+  .page-header h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--parchment); letter-spacing: 4px; margin-bottom: 1rem;
+  }
+  .page-header .divider {
+    width: 60px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--eldritch), transparent);
+    margin: 0 auto; box-shadow: 0 0 10px rgba(45,212,160,0.3);
+  }
+
+  .policy-container {
+    max-width: 800px; margin: 0 auto; padding: 0 2rem 6rem;
+  }
+
+  .policy-content {
+    background: linear-gradient(145deg, rgba(17,24,39,0.6), rgba(13,17,23,0.8));
+    border: 1px solid rgba(45,212,160,0.08);
+    padding: 3rem; border-radius: 4px;
+  }
+
+  .policy-date {
+    font-size: 0.85rem; color: var(--fog); opacity: 0.6;
+    margin-bottom: 1.5rem; font-family: 'Cinzel', serif; letter-spacing: 2px;
+  }
+
+  .policy-content h3 {
+    font-family: 'Cinzel', serif; font-size: 1.2rem;
+    color: var(--parchment); margin: 2rem 0 0.8rem; letter-spacing: 2px;
+  }
+  .policy-content h3:first-of-type { margin-top: 0; }
+
+  .policy-content p, .policy-content li {
+    font-size: 1rem; line-height: 1.8; color: var(--fog);
+  }
+  .policy-content ul { padding-left: 1.5rem; margin: 0.5rem 0; }
+  .policy-content li { margin-bottom: 0.3rem; }
+  .policy-content li::marker { color: var(--eldritch); }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    color: var(--eldritch); text-decoration: none;
+    font-family: 'Cinzel', serif; font-size: 0.85rem;
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 2rem; transition: all 0.3s;
+  }
+  .back-link:hover { text-shadow: 0 0 15px rgba(45,212,160,0.4); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(45,212,160,0.08);
+    padding: 3rem 2rem; text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Cinzel Decorative', serif; font-size: 1.2rem;
+    color: var(--eldritch); letter-spacing: 4px; margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(45,212,160,0.2);
+  }
+  .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .footer-links a {
+    color: var(--fog); text-decoration: none;
+    font-family: 'Cinzel', serif; font-size: 0.8rem;
+    letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--eldritch); }
+  .footer-copy { font-size: 0.8rem; color: var(--fog); opacity: 0.4; letter-spacing: 1px; }
+
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100vh;
+      background: rgba(10,10,15,0.98);
+      flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { font-size: 1.2rem; }
+    .menu-toggle { display: block; z-index: 101; }
+    .policy-content { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cosmic-bg"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">⛧ SATINKRAKEN</a>
+  <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open'); this.textContent = this.textContent === '☰' ? '✕' : '☰'">☰</button>
+  <ul class="nav-links">
+    <li><a href="index.html">Ana Sayfa</a></li>
+    <li><a href="index.html#games">Oyunlar</a></li>
+    <li><a href="privacy.html" class="active">Gizlilik</a></li>
+    <li><a href="terms.html">Kullanım Şartları</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="rune">✦ Yasal ✦</div>
+  <h1>Gizlilik Politikası</h1>
+  <div class="divider"></div>
+</div>
+
+<div class="policy-container">
+  <a href="index.html" class="back-link">← Ana Sayfaya Dön</a>
+
+  <div class="policy-content">
+    <p class="policy-date">Son güncelleme: Nisan 2026</p>
+
+    <h3>1. Toplanan Bilgiler</h3>
+    <p>Oyunlarımızı kullanırken aşağıdaki bilgileri toplayabiliriz:</p>
+    <ul>
+      <li>Cihaz bilgileri (işletim sistemi, cihaz modeli)</li>
+      <li>Oyun içi istatistikler ve ilerleme verileri</li>
+      <li>İletişim için sağladığınız e-posta adresi</li>
+      <li>Çerez ve benzeri teknolojilerle toplanan kullanım verileri</li>
+    </ul>
+
+    <h3>2. Bilgilerin Kullanımı</h3>
+    <p>Topladığımız bilgileri şu amaçlarla kullanırız: oyun deneyimini iyileştirmek, teknik sorunları tespit etmek ve gidermek, kullanıcı desteği sağlamak ve oyunlarımızı geliştirmek.</p>
+
+    <h3>3. Bilgi Paylaşımı</h3>
+    <p>Kişisel bilgilerinizi üçüncü taraflarla satmıyoruz. Yalnızca yasal zorunluluklar veya hizmet sağlayıcılarımızla (analitik, sunucu hizmetleri) sınırlı ölçüde paylaşabiliriz.</p>
+
+    <h3>4. Veri Güvenliği</h3>
+    <p>Bilgilerinizi korumak için endüstri standardı güvenlik önlemleri uyguluyoruz. Ancak internet üzerinden yapılan hiçbir iletimin %100 güvenli olmadığını hatırlatırız.</p>
+
+    <h3>5. Çerezler</h3>
+    <p>Web sitemiz, deneyiminizi kişiselleştirmek ve site trafiğini analiz etmek için çerezler kullanır. Tarayıcı ayarlarınızdan çerez tercihlerinizi yönetebilirsiniz.</p>
+
+    <h3>6. Çocukların Gizliliği</h3>
+    <p>Hizmetlerimiz 13 yaşın altındaki çocuklara yönelik değildir. Bilerek 13 yaşın altındaki çocuklardan kişisel bilgi toplamıyoruz.</p>
+
+    <h3>7. Haklarınız</h3>
+    <p>Kişisel verilerinize erişim, düzeltme veya silme talebinde bulunabilirsiniz. Bu haklarınızı kullanmak için bizimle iletişime geçebilirsiniz.</p>
+
+    <h3>8. İletişim</h3>
+    <p>Gizlilik politikamız hakkında sorularınız için: <strong style="color:var(--eldritch);">privacy@satinkraken.com</strong></p>
+
+    <h3>9. Değişiklikler</h3>
+    <p>Bu gizlilik politikasını zaman zaman güncelleyebiliriz. Önemli değişiklikler olması durumunda sizi bilgilendireceğiz.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">⛧ SATINKRAKEN ⛧</div>
+  <div class="footer-links">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="index.html#games">Oyunlar</a>
+    <a href="privacy.html">Gizlilik Politikası</a>
+    <a href="terms.html">Kullanım Şartları</a>
+  </div>
+  <p class="footer-copy">© 2026 SatinKraken. Tüm hakları saklıdır.</p>
+</footer>
+
+</body>
+</html>
